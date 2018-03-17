@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phone Book Application</title>
+</head>
+<body>
+
+	<h1>Phone Book</h1>
+
+	<span th:if="${msg} != null" th:text="${msg}"><br /><br /></span>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Edit</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pb : ${phonebooks}">
+				<td th:text="${pb.id}"></td>
+				<td th:text="${pb.name}"></td>
+				<td th:text="${pb.dateCreated}"></td>
+				<td><a th:href="@{/editPhoneBook/} + ${pb.id}">Edit</a></td>
+				<td><a th:href="@{/deletePhoneBook/} + ${pb.id}">Delete</a></td>
+				<td><a th:href="@{/contacts?phoneBookId=} + ${pb.id}">View Contacts</a></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<a href="/addPhoneBook">Add new phone book</a>
+
+</body>
+</html>

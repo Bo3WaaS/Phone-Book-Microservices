@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Insert title here</title>
+</head>
+<body>
+
+	<span th:if="${msg} != null" th:text="${msg}"><br />
+	<br /></span>
+	<form th:action="${action}" method="post">
+		<label>First Name: </label> <input type="text" name="firstName"
+			th:value="${contact} != null ? ${contact.firstName} : '' " /> <br />
+		<label>Last Name: </label> <input type="text" name="lastName"
+			th:value="${contact} != null ? ${contact.lastName} : '' " /> <br />
+		<label>Phone: </label> <input type="text" name="phone"
+			th:value="${contact} != null ? ${contact.phone} : '' " /> <br /> <label>Phone
+			Book: </label> <select name="phoneBookId">
+			<option th:each="phonebook : ${phonebooks}"
+				th:value="${phonebook.id}" th:text="${phonebook.name}"></option>
+		</select> <input type="Submit" value="Submit" />
+	</form>
+
+</body>
+</html>
