@@ -1,0 +1,92 @@
+version: '3'
+
+services:
+  naming:
+    build: eureka-naming-service/target
+    ports:
+      - "8761:8761"
+
+  config:
+    build: config-server/target
+    ports:
+      - "8888:8888"
+  
+  gateway:
+    build: api-gateway/target
+    ports:
+      - "8765:8765"
+    links:
+      - eureka
+    depends_on:
+      - eureka
+
+  tracing:
+    build: tracing-service/target
+    ports:
+      - "9411:9411"
+    links:
+      - eureka
+    depends_on:
+      - eureka
+
+  auth:
+    build: authorization-service/target
+    ports:
+      - "9000:9000"
+    links:
+      - eureka
+      - db
+    depends_on:
+      - eureka
+      - db
+
+  phonebook:
+    build: phonebook-service/target
+    ports:
+      - "8080:8080"
+    links:
+      - eureka
+      - db
+      - auth
+    depends_on:
+      - eureka
+      - auth
+      - db
+    replicas: 2
+
+  contact:
+    build: contact-service/target
+    ports:
+      - "8888:8888"
+    links:
+      - eureka
+      - db
+      - auth
+    depends_on:
+      - eureka
+      - auth
+      - phonebook
+      - db
+
+  ui:
+    build: ui-service/target
+    ports:
+      - "8000:8000"
+    links:
+      - eureka
+      - auth
+    depends_on:
+      - eureka
+      - auth
+      - phonebook
+      - contact
+
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - xxx:/var/lib/mysql
+
+
+

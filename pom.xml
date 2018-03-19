@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example.phonebook</groupId>
+    <artifactId>phonebook-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>phonebook-parent</name>
+    <description>Example of creating microservices using Spring</description>
+
+   <modules>
+       <module>eureka-naming-service</module>
+       <module>config-server</module>
+       <module>api-gateway</module>
+       <module>tracing-service</module>
+       <module>authorization-service</module>
+       <module>phonebook-service</module>
+       <module>contact-service</module>
+       <module>ui-service</module>
+   </modules>
+
+</project>
+
