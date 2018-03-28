@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClientConfig {
 
-	@Value("${security.oauth2.client.client-id}")
+	@Value("${security.oauth2.client.client-id:}")
 	private String id;
-	@Value("${security.oauth2.client.client-secret}")
+	@Value("${security.oauth2.client.client-secret:}")
 	private String secret;
-	@Value("${security.oauth2.client.access-token-uri}")
+	@Value("${security.oauth2.client.access-token-uri:}")
 	private String accessTokenUri;
-	@Value("${client.user-id-uri}")
+	@Value("${client.user-id-uri:}")
 	private String userIdUri;
 
 	public ClientConfig() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.example.phonebook.authorization.entity.User;
@@ -12,6 +13,7 @@ import com.example.phonebook.authorization.repository.UserRepository;
 import com.example.phonebook.authorization.repository.UserRoleRepository;
 
 @Component
+@Profile("dev")
 public class Bootstrap implements CommandLineRunner{
 
 	private UserRepository userRepository;

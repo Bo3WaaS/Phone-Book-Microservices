@@ -1,92 +1,96 @@
 version: '3'
 
 services:
-  naming:
+  eureka:
     build: eureka-naming-service/target
     ports:
       - "8761:8761"
+    networks:
+      - default
 
   config:
     build: config-server/target
     ports:
       - "8888:8888"
+    networks:
+      - default
   
   gateway:
     build: api-gateway/target
     ports:
       - "8765:8765"
-    links:
-      - eureka
+    networks:
+      - default
     depends_on:
       - eureka
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
 
   tracing:
     build: tracing-service/target
     ports:
       - "9411:9411"
-    links:
-      - eureka
+    networks:
+      - default
     depends_on:
       - eureka
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
 
   auth:
     build: authorization-service/target
     ports:
       - "9000:9000"
-    links:
-      - eureka
-      - db
-    depends_on:
-      - eureka
-      - db
+    networks:
+      - default
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
+      - DB_URL=jdbc:mysql://db:3306
 
   phonebook:
     build: phonebook-service/target
     ports:
       - "8080:8080"
-    links:
-      - eureka
-      - db
-      - auth
-    depends_on:
-      - eureka
-      - auth
-      - db
-    replicas: 2
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
+      - DB_URL=jdbc:mysql://db:3306
+      - CONFIG_SERVER_URL=http://config:8888
+      - GATEWAY_URL=http://gateway:8765
 
   contact:
     build: contact-service/target
     ports:
-      - "8888:8888"
-    links:
-      - eureka
-      - db
-      - auth
-    depends_on:
-      - eureka
-      - auth
-      - phonebook
-      - db
+      - "8081:8081"
+    networks:
+      - default
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
+      - DB_URL=jdbc:mysql://db:3306
+      - CONFIG_SERVER_URL=http://config:8888
+      - GATEWAY_URL=http://gateway:8765
 
   ui:
     build: ui-service/target
     ports:
       - "8000:8000"
-    links:
-      - eureka
-      - auth
-    depends_on:
-      - eureka
-      - auth
-      - phonebook
-      - contact
+    networks:
+      - default
+    environment:
+      - EUREKA_SERVICE_URL=http://eureka:8761
+      - CONFIG_SERVER_URL=http://config:8888
+      - AUTH_URL=http://auth:9000
 
   db:
     image: mysql
     ports:
       - "3306:3306"
+    networks:
+      - default
     volumes:
       - xxx:/var/lib/mysql
+
+networks:
+   default:
 
 
 
